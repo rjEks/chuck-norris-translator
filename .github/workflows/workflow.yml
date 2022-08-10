@@ -2,7 +2,7 @@ name: MLOps Lambda Container Pipeline
 
 on:
   push:
-    branches: [ baremetal ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -10,16 +10,18 @@ jobs:
     steps:      
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
-      - name: Setup SAM
-        uses: aws-actions/setup-sam@v1
-      - name: Setup Python
-        uses: actions/setup-python@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
-      - run: sam build --use-container
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name chuck-norris-translator --s3-bucket ##s3-bucket## --capabilities CAPABILITY_IAM --region ##region## 
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      
+      

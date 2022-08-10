@@ -9,7 +9,7 @@ translate_client = boto3.client('translate')
 def handler(event, context):
     
     chk_text = chk.return_joke()
-    translate.translate(chk_text,translate_client,"en","pt")
-
+    chk_joke = translate.translate(chk_text,translate_client,"en","pt")
+    
 
 
