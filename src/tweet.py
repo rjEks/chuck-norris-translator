@@ -14,7 +14,7 @@ def set_credentials(secrets):
     
     return bearer_token,api_key,api_key_secret,access_token,access_token_secret
 
-def getClient(bearer_token,api_key,api_key_secret,access_token,
+def get_client(bearer_token,api_key,api_key_secret,access_token,
             access_token_secret):    
 
     client = tw.Client(bearer_token=bearer_token, 
@@ -24,3 +24,5 @@ def getClient(bearer_token,api_key,api_key_secret,access_token,
                        access_token_secret=access_token_secret )
     return client
     
+def post_tweet(client, text):
+    return True
