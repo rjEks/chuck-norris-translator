@@ -42,4 +42,4 @@ jobs:
 
       - name: Update Lambda Function Code
         run: |
-          aws lambda update-function-code --function-name chuck-norris-translator-Function-fNouBu0iur8e --s3-bucket chuck-norris-translator --s3-key lambda-code/src.zip
+          aws lambda update-function-code --function-name chuck-norris-translator-Function-MqY3rTYMdfsR --s3-bucket chuck-norris-translator --s3-key lambda-code/src.zip
