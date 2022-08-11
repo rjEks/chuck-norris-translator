@@ -2,7 +2,7 @@ name: Chuck Norris Translator
 
 on:
   push:
-    branches: [ main ]
+    branches: [ baremetal ]
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Send Lambda Code to S3 and Layer Content         
+      - name: Send Lambda Code to S3        
         run: |
           aws s3api put-object --bucket chuck-norris-translator --key lambda-code/src.zip --region us-west-2 --body ./src.zip
 
@@ -37,4 +37,4 @@ jobs:
 
       - name: Update Lambda Function Code
         run: |
-          aws lambda update-function-code --function-name chuck-norris-translator-Function-fNouBu0iur8e --s3-bucket twitter-context-analyser --s3-key lambda-code/src.zip
+          aws lambda update-function-code --function-name chuck-norris-translator-Function-fNouBu0iur8e --s3-bucket chuck-norris-translator --s3-key lambda-code/src.zip
