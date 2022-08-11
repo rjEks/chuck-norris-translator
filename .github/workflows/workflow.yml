@@ -37,7 +37,7 @@ jobs:
           aws cloudformation deploy \
             --stack-name chuck-norris-translator \
             --no-fail-on-empty-changeset \
-            --template-file ./infra.yml \
+            --template-file ./template.yaml \
             --capabilities CAPABILITY_NAMED_IAM
 
       - name: Update Lambda Function Code
