@@ -25,4 +25,5 @@ def get_client(bearer_token,api_key,api_key_secret,access_token,
     return client
     
 def post_tweet(client, text):
-    return True
+    
+    client.create_tweet(text=text)
