@@ -11,6 +11,8 @@ Resources:
         S3Key: lambda-code/src.zip
       Runtime: python3.8
       Timeout: 90
+      Layers:
+        - arn:aws:lambda:us-west-2:791909314305:layer:tweepy-layer:2
 
   Role:
     Type: AWS::IAM::Role
