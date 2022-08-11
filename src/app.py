@@ -19,4 +19,4 @@ def handler(event, context):
     tweet_client = tweet.get_client(bearer_token,api_key,api_key_secret,access_token, \
                        access_token_secret)  
 
-    tweet.post_tweet(tweet_client,chk_joke)
+    tweet.post_tweet(tweet_client,chk_joke['TranslatedText'])
