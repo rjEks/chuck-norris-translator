@@ -1,27 +1,85 @@
-
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  ChkTranslator:
-    Type: AWS::Serverless::Function
+  Function:
+    Type: AWS::Lambda::Function
     Properties:
-      CodeUri: src/
-      Handler: app.handler
+      Handler: src/app.handler
+      Role: !GetAtt Role.Arn
+      Code:
+        S3Bucket: chuck-norris-translator
+        S3Key: lambda-code/src.zip
       Runtime: python3.8
-      Policies: 
-        - Statement:
-          - Sid: chkstatement
-            Effect: Allow
+      Timeout: 90
+
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: chk-lambda-role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - glue.amazonaws.com
             Action:
-            - sagemaker:*
-            - events:*
-            - ec2:*
-            - cloudwatch:*
-            Resource: '*'
-      Events:
-        ScheduledEvent:
-          Type: Schedule
-          Properties:
-            Schedule: cron(0 8 * * ? *)
-            Enabled: True 
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: chk-lambda-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - "cloudwatch:*"
+                  - "events:*"
+                  - "iam:GetPolicy"
+                  - "iam:GetPolicyVersion"
+                  - "iam:GetRole"
+                  - "iam:GetRolePolicy"
+                  - "iam:ListAttachedRolePolicies"
+                  - "iam:ListRolePolicies"
+                  - "iam:ListRoles"
+                  - "iam:PassRole"
+                  - "kms:ListAliases"
+                  - "lambda:*"
+                  - "logs:*"
+                  - "tag:GetResources"
+                  - "s3:*"
+                  - "secretsmanager:*"
+                  - "comprehend:*"
+                  - "glue:*"
+                  - "ec2:*"
+                  - "dynamodb:*"
+                Resource: '*'
+      MaxSessionDuration: 3600   
+
+  ChkEventRule: 
+    Type: AWS::Events::Rule
+    Properties: 
+      Description: "chk-translator"
+      ScheduleExpression: "rate(6 hours)"
+      State: "ENABLED"
+      Targets: 
+        - 
+          Arn: 
+            Fn::GetAtt: 
+              - "Function"
+              - "Arn"
+          Id: "TargetFunctionV1"
+          
+  PermissionForEventsToInvokeLambda: 
+    Type: AWS::Lambda::Permission
+    Properties: 
+      FunctionName: !Ref "Function"
+      Action: "lambda:InvokeFunction"
+      Principal: "events.amazonaws.com"
+      SourceArn: 
+        Fn::GetAtt: 
+          - "ChkEventRule"
+          - "Arn"
+
+  
