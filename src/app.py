@@ -16,7 +16,7 @@ def handler(event, context):
     bearer_token,api_key,api_key_secret,access_token,\
     access_token_secret = tweet.set_credentials(secrets)
 
-    tweet_client = tweet.getClient(bearer_token,api_key,api_key_secret,access_token, \
+    tweet_client = tweet.get_client(bearer_token,api_key,api_key_secret,access_token, \
                        access_token_secret)  
 
     tweet.post_tweet(tweet_client,chk_joke)
