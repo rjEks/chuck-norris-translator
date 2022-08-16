@@ -1,5 +1,5 @@
 import requests
-import boto3
+
 
 
 def return_joke():
