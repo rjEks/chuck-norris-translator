@@ -2,7 +2,7 @@ name: Chuck Norris Translator
 
 on:
   push:
-    branches: [ main ]
+    branches: [ baremetal ]
 
 jobs:
   build:

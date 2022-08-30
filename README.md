@@ -1,5 +1,5 @@
 # Chuck Norris Translator
 _________
 
-Funny Machine Learning experiment.
+Funny Machine Learning experiment
  
